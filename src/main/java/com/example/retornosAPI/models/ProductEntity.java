@@ -22,7 +22,9 @@ public class ProductEntity {
 
     private Double price;
 
+    @Size(max = 500, message = "Maximum allowed of 500 characters!")
     private String description;
+
     private int inStockQuantity;
     private Category category;
 
