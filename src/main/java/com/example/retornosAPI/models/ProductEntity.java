@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
@@ -19,17 +20,16 @@ public class ProductEntity {
     @NotBlank(message = "Please, write a name!")
     private String name;
 
-    @Size(min = 1, message = "Price minimum is 1,00!")
+    @DecimalMin(value = "1.0", message = "Price minimum is 1,00!")
     private Double price;
 
     @Size(max = 500, message = "Maximum allowed of 500 characters!")
     private String description;
 
-    @NotBlank(message = "Please write the quantity in stock!")
-    @Size(min = 0, message = "Quantity in stock can't be lower than 0!")
-    private Integer inStockQuantity;
 
-    @NotBlank(message = "Please write a category (ELECTRONICS, CLOTHES, FOOD)")
+    private int inStockQuantity;
+
+
     private Category category;
 
     public ProductEntity() {
@@ -85,11 +85,11 @@ public class ProductEntity {
         this.description = description;
     }
 
-    public Integer getInStockQuantity() {
+    public int getInStockQuantity() {
         return inStockQuantity;
     }
 
-    public void setInStockQuantity(Integer inStockQuantity) {
+    public void setInStockQuantity(int inStockQuantity) {
         this.inStockQuantity = inStockQuantity;
     }
 
