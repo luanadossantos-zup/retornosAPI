@@ -3,6 +3,7 @@ package com.example.retornosAPI.services;
 import com.example.retornosAPI.models.Product;
 import com.example.retornosAPI.models.ProductEntity;
 import com.example.retornosAPI.repositories.ProductRepository;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public class ProductService {
         this.repository = repository;
     }
 
-    public Product createProduct(Product product) {
+    public Product createProduct(@Valid Product product) {
         ProductEntity entity = new ProductEntity(null, product.name(), product.price(), product.description(), product.inStockQuantity(), product.category());
         ProductEntity savedEntity = repository.save(entity);
         return new Product(savedEntity.getId(), savedEntity.getName(), savedEntity.getPrice(), savedEntity.getDescription(), savedEntity.getInStockQuantity(), savedEntity.getCategory());
@@ -48,6 +49,10 @@ public class ProductService {
         // Atualizar os dados do produto
         existingEntity.setName(updatedProduct.name());
         existingEntity.setPrice(updatedProduct.price());
+        existingEntity.setDescription(updatedProduct.description());
+        existingEntity.setInStockQuantity(updatedProduct.inStockQuantity());
+        existingEntity.setCategory(updatedProduct.category());
+
 
         // Salvar as alterações no banco de dados
         ProductEntity savedEntity = repository.save(existingEntity);
