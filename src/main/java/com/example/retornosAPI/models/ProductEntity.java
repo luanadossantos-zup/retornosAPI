@@ -25,7 +25,11 @@ public class ProductEntity {
     @Size(max = 500, message = "Maximum allowed of 500 characters!")
     private String description;
 
+    @NotBlank(message = "Please write the quantity in stock!")
+    @Size(min = 0, message = "Quantity in stock can't be lower than 0!")
     private int inStockQuantity;
+
+
     private Category category;
 
     public ProductEntity() {
