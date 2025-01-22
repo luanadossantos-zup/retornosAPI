@@ -19,7 +19,7 @@ public class ProductEntity {
     @NotBlank(message = "Please, write a name!")
     private String name;
 
-
+    @Size(min = 1, message = "Price minimum is 1,00!")
     private Double price;
 
     @Size(max = 500, message = "Maximum allowed of 500 characters!")
