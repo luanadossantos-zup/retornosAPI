@@ -27,7 +27,7 @@ public class ProductEntity {
 
     @NotBlank(message = "Please write the quantity in stock!")
     @Size(min = 0, message = "Quantity in stock can't be lower than 0!")
-    private int inStockQuantity;
+    private Integer inStockQuantity;
 
     @NotBlank(message = "Please write a category (ELECTRONICS, CLOTHES, FOOD)")
     private Category category;
@@ -35,10 +35,13 @@ public class ProductEntity {
     public ProductEntity() {
     }
 
-    public ProductEntity(Long id, String name, Double price) {
+    public ProductEntity(Long id, String name, Double price, String description, int inStockQuantity, Category category) {
         this.id = id;
         this.name = name;
         this.price = price;
+        this.description = description;
+        this.inStockQuantity = inStockQuantity;
+        this.category = category;
     }
 
     public void setId(Long id) {
@@ -64,6 +67,32 @@ public class ProductEntity {
     public Double getPrice() {
         return price;
     }
+
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Integer getInStockQuantity() {
+        return inStockQuantity;
+    }
+
+    public void setInStockQuantity(Integer inStockQuantity) {
+        this.inStockQuantity = inStockQuantity;
+    }
+
 
 
 }
