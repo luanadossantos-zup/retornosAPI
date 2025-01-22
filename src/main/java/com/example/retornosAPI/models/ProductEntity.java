@@ -29,7 +29,7 @@ public class ProductEntity {
     @Size(min = 0, message = "Quantity in stock can't be lower than 0!")
     private int inStockQuantity;
 
-
+    @NotBlank(message = "Please write a category (ELECTRONICS, CLOTHES, FOOD)")
     private Category category;
 
     public ProductEntity() {
