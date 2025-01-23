@@ -5,6 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
@@ -17,7 +18,6 @@ public class ProductEntity {
 
     @Size(min = 3, message = "Minimum allowed of 3 characters!")
     @Size(max = 100, message = "Maximum allowed of 100 characters!")
-    @NotBlank(message = "Please, write a name!")
     private String name;
 
     @DecimalMin(value = "1.0", message = "Price minimum is 1,00!")
@@ -26,7 +26,7 @@ public class ProductEntity {
     @Size(max = 500, message = "Maximum allowed of 500 characters!")
     private String description;
 
-
+    @Min(value = 0, message = "Can't use negative numbers!")
     private int inStockQuantity;
 
 
