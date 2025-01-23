@@ -18,21 +18,33 @@ public class ProductController {
         this.service = service;
     }
 
+    //Cria produto
     @PostMapping
     public ResponseEntity<Product> createProduct(@Valid @RequestBody Product product) {
         return ResponseEntity.ok(service.createProduct(product));
     }
 
-    @GetMapping("/{id}")
+    //Busca individual por id ( /products/{id} )
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<Product> getProductById(@Valid @PathVariable Long id) {
         return ResponseEntity.ok(service.getProductById(id));
     }
+    
+    //Busca individual por nome (/products/search?name=... )
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    public ResponseEntity<List<Product>> getProductByName(@RequestParam(value = "name") String name) {
+        return ResponseEntity.ok(service.getProductsByName(name));
+    }
 
+
+    
+    //Listar tudo
     @GetMapping
     public ResponseEntity<List<Product>> getAllProducts() {
         return ResponseEntity.ok(service.getAllProducts());
     }
-
+    
+    //Deletar
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProduct(@Valid @PathVariable Long id) {
         service.deleteProduct(id);
