@@ -1,9 +1,6 @@
 package com.example.retornosAPI.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
 @Entity
@@ -27,6 +24,8 @@ public class ProductEntity {
     @Min(value = 0, message = "Can't use negative numbers!")
     private int inStockQuantity;
 
+    //Garantir que o valor enviado no JSON seja mapeado para o enum
+    @Enumerated(EnumType.STRING)
     private Category category;
 
     public ProductEntity() {
