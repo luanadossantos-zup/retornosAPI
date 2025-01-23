@@ -1,14 +1,18 @@
 package com.example.retornosAPI.config.exception;
 
+import com.example.retornosAPI.models.Category;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -41,4 +45,30 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleRuntimeException(RuntimeException ex) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ex.getMessage());
     }
+
+    //Handler para a validação do Enum Category
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<String> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
+        // Verifica se a causa do erro é um InvalidFormatException
+        if (ex.getCause() instanceof InvalidFormatException) {
+            InvalidFormatException invalidFormatException = (InvalidFormatException) ex.getCause();
+
+            // Verifica se o erro está relacionado ao enum Category
+            if (invalidFormatException.getTargetType().isEnum()) {
+                // Obtém os valores válidos do enum
+                String validValues = String.join(", ",
+                        Arrays.stream(Category.values())
+                                .map(Enum::name)
+                                .toArray(String[]::new)
+                );
+
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body("Please the only options accepted are: [" + validValues + "]");
+            }
+        }
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid request payload");
+    }
+
+
 }
