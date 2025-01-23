@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 @Service
 public class ProductService {
 
+    private final String PRODUCT_SERVICE = "ProductService:: ";
     private final ProductRepository repository;
 
     public ProductService(ProductRepository repository) {
@@ -41,7 +42,7 @@ public class ProductService {
     }
 
     // Atualizar um produto existente
-    public Product updateProduct(Long id, Product updatedProduct) {
+    public Product updateProduct(@Valid Long id, Product updatedProduct) {
         // Verificar se o produto existe
         ProductEntity existingEntity = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Product with ID " + id + " not found"));
@@ -63,18 +64,29 @@ public class ProductService {
 
     // Buscar produtos pelo nome
     public List<Product> getProductsByName(String name) {
-        if (name == null || name.isEmpty()) {
-            throw new IllegalArgumentException("O nome do produto não pode ser vazio.");
-        }
+
+        validateProductName(name);
 
         List<ProductEntity> entities = repository.findByNameContainingIgnoreCase(name);
-        if (entities.isEmpty()) {
-            System.out.println("Nenhum produto encontrado com o nome: " + name);
-        } else {
-            System.out.println("Produtos encontrados com o nome '" + name + "': " + entities.size());
-        }
+
+        validateWithLog(entities, name);
+
         return entities.stream()
                 .map(entity -> new Product(entity.getId(), entity.getName(), entity.getPrice(), entity.getDescription(), entity.getInStockQuantity(), entity.getCategory()))
                 .collect(Collectors.toList());
+    }
+
+    private void validateProductName(String name) {
+        if (name == null || name.isEmpty()) {
+            throw new IllegalArgumentException(PRODUCT_SERVICE + "O nome do produto não pode ser vazio.");
+        }
+    }
+
+    private void validateWithLog(List<ProductEntity> entities, String name) {
+        if (entities.isEmpty()) {
+            System.out.println(PRODUCT_SERVICE + "Nenhum produto encontrado com o nome: " + name);
+        } else {
+            System.out.println(PRODUCT_SERVICE + "Produtos encontrados com o nome '" + name + "': " + entities.size());
+        }
     }
 }
