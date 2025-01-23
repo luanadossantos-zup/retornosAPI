@@ -45,7 +45,7 @@ public class ProductService {
     public Product updateProduct(@Valid Long id, Product updatedProduct) {
         // Verificar se o produto existe
         ProductEntity existingEntity = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product with ID " + id + " not found"));
+                .orElseThrow(() -> new RuntimeException(PRODUCT_SERVICE + "product with ID " + id + " not found"));
 
         // Atualizar os dados do produto
         existingEntity.setName(updatedProduct.name());
