@@ -19,24 +19,28 @@ public class ProductService {
         this.repository = repository;
     }
 
+    //Criar produto
     public Product createProduct(@Valid Product product) {
         ProductEntity entity = new ProductEntity(null, product.name(), product.price(), product.description(), product.inStockQuantity(), product.category());
         ProductEntity savedEntity = repository.save(entity);
         return new Product(savedEntity.getId(), savedEntity.getName(), savedEntity.getPrice(), savedEntity.getDescription(), savedEntity.getInStockQuantity(), savedEntity.getCategory());
     }
 
+    //Busca individual por id
     public Product getProductById(Long id) {
         ProductEntity entity = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
         return new Product(entity.getId(), entity.getName(), entity.getPrice(), entity.getDescription(), entity.getInStockQuantity(), entity.getCategory());
     }
 
+    //Listar tudo
     public List<Product> getAllProducts() {
         return repository.findAll().stream()
                 .map(entity -> new Product(entity.getId(), entity.getName(), entity.getPrice(), entity.getDescription(), entity.getInStockQuantity(), entity.getCategory()))
                 .collect(Collectors.toList());
     }
 
+    //Deletar
     public void deleteProduct(Long id) {
         repository.deleteById(id);
     }
@@ -76,6 +80,8 @@ public class ProductService {
                 .collect(Collectors.toList());
     }
 
+
+    //Validações
     private void validateProductName(String name) {
         if (name == null || name.isEmpty()) {
             throw new IllegalArgumentException(PRODUCT_SERVICE + "O nome do produto não pode ser vazio.");
