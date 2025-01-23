@@ -36,7 +36,10 @@ public class ProductController {
         return ResponseEntity.ok(service.getProductsByName(name));
     }
 
-
+    @PutMapping("/{id}")
+    public ResponseEntity<Product> updateProduct(@Valid @PathVariable Long id, @RequestBody Product product) {
+        return ResponseEntity.ok(service.updateProduct(id, product));
+    }
     
     //Listar tudo
     @GetMapping
