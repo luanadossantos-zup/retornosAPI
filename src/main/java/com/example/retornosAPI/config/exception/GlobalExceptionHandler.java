@@ -20,6 +20,8 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+
+
     //Handler para gerenciar visualização em JSON de MethodArgumentNotValidException
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
@@ -49,25 +51,32 @@ public class GlobalExceptionHandler {
     //Handler para a validação do Enum Category
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<String> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
+        boolean isInvalidFormatException = ex.getCause() instanceof InvalidFormatException;
+
         // Verifica se a causa do erro é um InvalidFormatException
-        if (ex.getCause() instanceof InvalidFormatException) {
+        if (isInvalidFormatException) {
             InvalidFormatException invalidFormatException = (InvalidFormatException) ex.getCause();
+            boolean isEnum = invalidFormatException.getTargetType().isEnum();
 
             // Verifica se o erro está relacionado ao enum Category
-            if (invalidFormatException.getTargetType().isEnum()) {
+            if (isEnum) {
                 // Obtém os valores válidos do enum
-                String validValues = String.join(", ",
-                        Arrays.stream(Category.values())
-                                .map(Enum::name)
-                                .toArray(String[]::new)
-                );
+                 String validValuesForEnum = validValuesForEnum();
 
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                        .body("Please the only options accepted are: [" + validValues + "]");
+                        .body("Please the only options accepted are: [" + validValuesForEnum + "]");
             }
         }
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid request payload");
+    }
+
+    public String validValuesForEnum (){
+        return String.join(", ",
+                Arrays.stream(Category.values())
+                        .map(Enum::name)
+                        .toArray(String[]::new)
+        );
     }
 
 
