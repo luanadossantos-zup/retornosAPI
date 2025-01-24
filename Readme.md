@@ -21,7 +21,7 @@ Use as rotas:
 - Para buscar por id (GET): 
 > api/products/{id}
 - Para buscar por nome (GET): 
-> /products/search?name=Television
+> /products/search?name={name}
 - Para buscar tudo (GET):
 > api/products
 - Para atualizar um produto (PUT):
