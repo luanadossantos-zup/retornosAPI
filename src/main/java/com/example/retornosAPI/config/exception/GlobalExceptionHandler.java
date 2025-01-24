@@ -64,7 +64,7 @@ public class GlobalExceptionHandler {
                  String validValuesForEnum = validValuesForEnum();
 
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                        .body("Please the only options accepted are: [" + validValuesForEnum + "]");
+                        .body("category: please the only options accepted are: [" + validValuesForEnum + "]");
             }
         }
 
