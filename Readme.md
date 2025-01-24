@@ -18,10 +18,12 @@ Use as rotas:
 
 - Para salvar (POST): 
 > /api/products
-- Para buscar por id: 
+- Para buscar por id (GET): 
 > api/products/{id}
-- Para buscar por nome: 
+- Para buscar por nome (GET): 
 > /products/search?name=Television
+- Para buscar tudo (GET):
+> api/products
 - Para atualizar um produto (PUT):
 > api/products/{id}
 - Para deletar um produto (DELETE) :
