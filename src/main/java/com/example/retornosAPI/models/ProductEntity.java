@@ -10,21 +10,26 @@ public class ProductEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull(message = "Name can't be empty!")
     @Size(min = 3, message = "Minimum allowed of 3 characters!")
     @Size(max = 100, message = "Maximum allowed of 100 characters!")
     private String name;
 
+    @NotNull(message = "Price can't be empty!")
     @DecimalMin(value = "1.0", message = "Price minimum is 1,00!")
     private Double price;
 
-    @Size(min = 1, message = "Description can't be empty")
+    @NotNull(message = "Description can't be empty!")
+    @Size(min = 1, message = "Minimum character is one!")
     @Size(max = 500, message = "Maximum allowed of 500 characters!")
     private String description;
 
+    @NotNull(message = "In Stock Quantity can't be empty!")
     @Min(value = 0, message = "Can't use negative numbers!")
     private int inStockQuantity;
 
     //Garantir que o valor enviado no JSON seja mapeado para o enum
+    @NotNull(message = "Category can't be empty!")
     @Enumerated(EnumType.STRING)
     private Category category;
 
