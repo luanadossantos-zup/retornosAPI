@@ -48,8 +48,8 @@ public class ProductService {
        if (existingEntity) {
            repository.deleteById(id);
        } else {
-           System.out.println(PRODUCT_SERVICE + "Product couldn't be found!");
-           throw new RuntimeException("Product couldn't be found!");
+           System.out.println(PRODUCT_SERVICE + "product with ID " + id + " not found");
+           throw new RuntimeException("Product with ID " + id + " not found");
         }
 
     }
