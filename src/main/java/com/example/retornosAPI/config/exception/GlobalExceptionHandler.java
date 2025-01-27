@@ -22,7 +22,7 @@ public class GlobalExceptionHandler {
 
 
 
-    //Handler para gerenciar visualização em JSON de MethodArgumentNotValidException
+    //Handler para gerenciar visualização em JSON (usando for)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
@@ -31,10 +31,11 @@ public class GlobalExceptionHandler {
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
     }
-    //Handler para gerenciar visualização em JSON de ConstraintViolationException
+    //Handler para gerenciar visualização em JSON (usando Stream)
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<Map<String, String>> handleConstraintViolationException(ConstraintViolationException ex) {
-        Map<String, String> errors = ex.getConstraintViolations().stream()
+        Map<String, String> errors = ex.getConstraintViolations()
+                .stream()
                 .collect(Collectors.toMap(
                         violation -> violation.getPropertyPath().toString(), // Nome do campo
                         ConstraintViolation::getMessage // Mensagem de erro
