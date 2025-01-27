@@ -42,7 +42,16 @@ public class ProductService {
 
     //Deletar
     public void deleteProduct(Long id) {
-        repository.deleteById(id);
+
+       boolean existingEntity = repository.existsById(id);
+
+       if (existingEntity) {
+           repository.deleteById(id);
+       } else {
+           System.out.println(PRODUCT_SERVICE + "Product couldn't be found!");
+           throw new RuntimeException("Product couldn't be found!");
+        }
+
     }
 
     // Atualizar um produto existente
